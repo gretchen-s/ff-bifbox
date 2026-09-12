@@ -136,7 +136,7 @@ Having computed the RHS of the augmented system in `funcRa`, we now have to buil
 $$
 \begin{equation}
 \begin{bmatrix}
-\mathcal{J} & \frac{\partial\mathcal{J}}{\partial \lambda_1} & \frac{\partial\mathcal{J}}{\partial \lambda_2} \\
+\mathcal{J} & \frac{\partial\mathcal{R}}{\partial \lambda_1} & \frac{\partial\mathcal{R}}{\partial \lambda_2} \\
 (\frac{\partial{}g}{\partial q})^T& \frac{\partial{}g}{\partial\lambda_1} & \frac{\partial{}g}{\partial \lambda_2} \\
 (\frac{\partial{}h}{\partial q})^T& \frac{\partial{}h}{\partial\lambda_1} & \frac{\partial{}h}{\partial \lambda_2}
 \end{bmatrix}
@@ -227,7 +227,7 @@ However, it is not desirable or necessary to ever construct $`\frac{\partial w}{
 For the first term in Eq. (7), we have:
 
 $$
-\left(\frac{\partial v}{\partial z}\right)^T\mathcal{M}w=\left(-v^T\frac{\partial\mathcal{J}}{\partial z}+\frac{\partial g}{\partial z}\left(\mathcal{M}q_0\right)^T\right)\mathcal{J}^{-1}\mathcal{M}w=-v^T\frac{\partial\mathcal{J}}{\partial z}\hat{w}+\frac{\partial g}{\partial z}\left(\mathcal{M}q_0\right)^T\hat{w}
+\left(\frac{\partial v}{\partial z}\right)^T\mathcal{M}w=\left(-v^T\frac{\partial\mathcal{J}}{\partial z}+\frac{\partial g}{\partial z}\left(\mathcal{M}q_0\right)^T\right)\mathcal{J}^{-1}\mathcal{M}w=-v^T\frac{\partial\mathcal{J}}{\partial z}\hat{w}
 $$
 
 where $`\hat{w}`$ solves the non-singular system:
@@ -261,7 +261,7 @@ $$
 Then, similarly, for the last term in Eq. (7), we have:
 
 $$
-v^T\mathcal{M}\frac{\partial w}{\partial z}=v^T\mathcal{M}\mathcal{J}^{-1}\left(-\frac{\partial\mathcal{J}}{\partial z}w+\mathcal{M}p_0\frac{\partial g}{\partial z}\right)=-\hat{v}^T\frac{\partial\mathcal{J}}{\partial z}w+\hat{v}^T\mathcal{M}p_0\frac{\partial g}{\partial z}
+v^T\mathcal{M}\frac{\partial w}{\partial z}=v^T\mathcal{M}\mathcal{J}^{-1}\left(-\frac{\partial\mathcal{J}}{\partial z}w+\mathcal{M}p_0\frac{\partial g}{\partial z}\right)=-\hat{v}^T\frac{\partial\mathcal{J}}{\partial z}w
 $$
 
 where $`\hat{v}`$ solves the non-singular system:
@@ -296,9 +296,9 @@ So we can write Eq. (3) explicitly as
 
 $$
 \begin{bmatrix}
-\mathcal{J} & \frac{\partial\mathcal{J}}{\partial \lambda_1} & \frac{\partial\mathcal{J}}{\partial \lambda_2} \\
-\Re\left(v^T\frac{\partial \mathcal{J}}{\partial q}w\right) & \Re\left(v^T\frac{\partial \mathcal{J}}{\partial \lambda_1}w\right) & \Re\left(v^T\frac{\partial \mathcal{J}}{\partial \lambda_2}w\right) \\
-\Re\left(\frac{\partial h}{\partial q}\right) & \Re\left(\frac{\partial h}{\partial \lambda_1}\right) & \Re\left(\frac{\partial h}{\partial \lambda_1}\right)
+\mathcal{J} & \frac{\partial\mathcal{R}}{\partial \lambda_1} & \frac{\partial\mathcal{R}}{\partial \lambda_2} \\
+\left(v^T\frac{\partial \mathcal{J}}{\partial q}w\right)^T & v^T\frac{\partial \mathcal{J}}{\partial \lambda_1}w & v^T\frac{\partial \mathcal{J}}{\partial \lambda_2}w \\
+\left(\frac{\partial h}{\partial q}\right)^T & \frac{\partial h}{\partial \lambda_1} & \frac{\partial h}{\partial \lambda_1}
 \end{bmatrix}
 \begin{bmatrix}
 \delta{}q \\
@@ -306,15 +306,15 @@ $$
 \delta\lambda_2
 \end{bmatrix} = \begin{bmatrix}
 \mathcal{R} \\
-\Re(g) \\
-\Re(h)
+g \\
+h
 \end{bmatrix}
 $$
 
 where
 
 $$
-\frac{\partial h}{\partial z} = -v^T\frac{\partial\mathcal{J}}{\partial z}\hat{w} + v^T\frac{\partial \mathcal{M}}{\partial z}w - \hat{v}T\frac{\partial\mathcal{J}}{\partial z}w + \left(\left(\mathcal{M}q_0\right)^T\hat{w}+\hat{v}^T\mathcal{M}p_0\right)\frac{\partial g}{\partial z}
+\frac{\partial h}{\partial z} = -v^T\frac{\partial\mathcal{J}}{\partial z}\hat{w} + v^T\frac{\partial \mathcal{M}}{\partial z}w - \hat{v}^T\frac{\partial\mathcal{J}}{\partial z}w
 $$
 
 ## EXAMPLE USAGE:
@@ -340,7 +340,7 @@ ff-mpirun -np 4 botacompute.md -param <PARAM> -param2 <PARAM2> -fi <FILEIN> -fo 
 
 NOTE: This file should not be changed unless you know what you're doing.
 
-SEE ALSO: [modecompute.md](./modecompute.md), [hopfcompute.md](./hopfcompute.md), [hopfcontinue.md](./hopfcontinue.md), [fohocompute.md](./fohocompute.md), [foldcompute.md](./foldcompute.md), [foldcontinue.md](./foldcontinue.md), [porbcontinue.md](./porbcontinue.md)
+SEE ALSO: [modecompute.md](./modecompute.md), [hopfcompute.md](./hopfcompute.md), [hopfcontinue.md](./hopfcontinue.md), [fohocompute.md](./fohocompute.md), [foldcompute.md](./foldcompute.md), [foldcontinue.md](./foldcontinue.md), [bautcompute.md](./bautcompute.md), [porbcontinue.md](./porbcontinue.md)
 
 ```freefem
 load "iovtk"
@@ -389,6 +389,16 @@ else if (fileext == "hopf") {
   real[int] sym1(sym.n);
   complex[int] qm(um[].n), qma(um[].n);
   ub[] = loadhopf(fileroot, meshin, qm, qma, sym1, omega, alpha, beta);
+  um[] = qm.re;
+  uma[] = qma.re;
+}
+else if (fileext == "baut") {
+  real omega;
+  complex[string] alpha;
+  complex beta;
+  real[int] sym1(sym.n);
+  complex[int] qm(um[].n), qma(um[].n);
+  ub[] = loadbaut(fileroot, meshin, qm, qma, sym1, omega, alpha, beta);
   um[] = qm.re;
   uma[] = qma.re;
 }
@@ -488,6 +498,13 @@ else if(basefileext == "hopf") {
   complex beta;
   complex[int] qm, qma;
   ub[] = loadhopf(basefileroot, meshin, qm, qma, sym, omega, alpha, beta);
+}
+else if(basefileext == "baut") {
+  real omega;
+  complex[string] alpha;
+  complex beta;
+  complex[int] qm, qma;
+  ub[] = loadbaut(basefileroot, meshin, qm, qma, sym, omega, alpha, beta);
 }
 else if(basefileext == "bota") {
   real[string] alpha1, alpha2;
