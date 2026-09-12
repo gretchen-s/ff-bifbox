@@ -29,14 +29,14 @@ $$
 h = \langle{}v,\mathcal{H}\left(w,w\right)\rangle = v^T\mathcal{H}\left(w,w\right)
 $$
 
-where $`g`$ is the fold residual and $`v`$ and $`w`$ are the adjoint and direct eigenvectors, respectively.
+where $`g`$ is the fold residual, $`h`$ is the cusp residual, and $`v`$ and $`w`$ are the adjoint and direct eigenvectors, respectively.
 
 $`g`$, $`v`$, and $`w`$ can be found using minimially augmented systems:
 
 $$
 \begin{equation}
 \begin{bmatrix}
--\mathcal{J} & \mathcal{M}p_0 \\
+-\mathcal{J} & \mathcal{M}q_0 \\
 \left(\mathcal{M}q_0\right)^T & 0
 \end{bmatrix}
 \begin{bmatrix}
@@ -49,18 +49,18 @@ g
 \end{equation}
 $$
 
-where $`q_0`$, $`p_0`$ are initial approximations of the direct & adjoint eigenvectors.
+where $`q_0`$ is an initial approximation of the direct eigenvector.
 
 This implies:
 
 $$
-\mathcal{J}w = \mathcal{M}p_0g\qquad{}\text{and}\qquad{}(\mathcal{M}q_0)^Tw = 1
+\mathcal{J}w = \mathcal{M}q_0g\qquad{}\text{and}\qquad{}(\mathcal{M}q_0)^Tw = 1
 $$
 
 so
 
 $$
-w = \mathcal{J}^{-1}\mathcal{M}p_0g\qquad{}\text{and}\qquad{}g = \frac{1}{(\mathcal{M}q_0)^T\mathcal{J}^{-1}\mathcal{M}p_0}.
+w = \mathcal{J}^{-1}\mathcal{M}q_0g\qquad{}\text{and}\qquad{}g = \frac{1}{(\mathcal{M}q_0)^T\mathcal{J}^{-1}\mathcal{M}q_0}.
 $$
 
 Note that, at $`g = 0`$, we have $`\mathcal{J}w = 0`$ and $`\left(\mathcal{M}q_0\right)^Tw = 1`$.
@@ -71,7 +71,7 @@ $$
 \begin{bmatrix}
 v^T & g
 \end{bmatrix}\begin{bmatrix}
--\mathcal{J} & \mathcal{M}p_0 \\
+-\mathcal{J} & \mathcal{M}q_0 \\
 (\mathcal{M}q_0)^T & 0
 \end{bmatrix} = \begin{bmatrix}
 0 & 1
@@ -81,7 +81,7 @@ $$
 This implies:
 
 $$
-v^T\mathcal{J} = g(\mathcal{M}q_0)^T\qquad{}\text{and}\qquad{}v^T\mathcal{M}p_0 = 1
+v^T\mathcal{J} = g(\mathcal{M}q_0)^T\qquad{}\text{and}\qquad{}v^T\mathcal{M}q_0 = 1
 $$
 
 or, taking the transpose:
@@ -90,7 +90,7 @@ $$
 \begin{equation}
 \begin{bmatrix}
 -\mathcal{J}^T & \mathcal{M}q_0 \\
-(\mathcal{M}p_0)^T & 0
+(\mathcal{M}q_0)^T & 0
 \end{bmatrix}
 \begin{bmatrix}
 v \\
@@ -105,16 +105,16 @@ $$
 giving, equivalently,
 
 $$
-\mathcal{J}^Tv = \mathcal{M}q_0g\qquad{}\text{and}\qquad{}(\mathcal{M}p_0)^Tv = 1
+\mathcal{J}^Tv = \mathcal{M}q_0g\qquad{}\text{and}\qquad{}(\mathcal{M}q_0)^Tv = 1
 $$
 
 so
 
 $$
-v = \mathcal{J}^{-T}\mathcal{M}q_0g\qquad{}\text{and}\qquad{}g = \frac{1}{(\mathcal{M}p_0)^T\mathcal{J}^{-T}\mathcal{M}q_0}
+v = \mathcal{J}^{-T}\mathcal{M}q_0g\qquad{}\text{and}\qquad{}g = \frac{1}{(\mathcal{M}q_0)^T\mathcal{J}^{-T}\mathcal{M}q_0}
 $$
 
-At $`g = 0`$, we have $`\mathcal{J}^Tv = 0`$ and $`(\mathcal{M}p_0)^Tv = 1`$, so $`v^T\mathcal{J} = 0`$ and $`v^T\mathcal{M}p_0 = 1`$.
+At $`g = 0`$, we have $`\mathcal{J}^Tv = 0`$ and $`(\mathcal{M}q_0)^Tv = 1`$, so $`v^T\mathcal{J} = 0`$ and $`v^T\mathcal{M}q_0 = 1`$.
 
 It can then be confirmed that $`g = v^T\mathcal{J}w = w^T\mathcal{J}^Tv`$.
 
@@ -132,7 +132,7 @@ Having computed the RHS of the augmented system in `funcRa`, we now have to buil
 $$
 \begin{equation}
 \begin{bmatrix}
-\mathcal{J} & \frac{\partial\mathcal{J}}{\partial \lambda_1} & \frac{\partial\mathcal{J}}{\partial \lambda_2} \\
+\mathcal{J} & \frac{\partial\mathcal{R}}{\partial \lambda_1} & \frac{\partial\mathcal{R}}{\partial \lambda_2} \\
 (\frac{\partial{}g}{\partial q})^T& \frac{\partial{}g}{\partial\lambda_1} & \frac{\partial{}g}{\partial\lambda_2} \\
 (\frac{\partial{}h}{\partial q})^T& \frac{\partial{}h}{\partial\lambda_1} & \frac{\partial{}h}{\partial\lambda_2} \\
 \end{bmatrix}
@@ -155,7 +155,7 @@ To determine the augmented matrix entries in the second row, we differentiate Eq
 $$
 \begin{equation}
 \begin{bmatrix}
--\mathcal{J} & \mathcal{M}p_0 \\
+-\mathcal{J} & \mathcal{M}q_0 \\
 (\mathcal{M}q_0)^T & 0
 \end{bmatrix}
 \begin{bmatrix}
@@ -177,7 +177,7 @@ $$
 This also implies that:
 
 $$
-\mathcal{J}\frac{\partial w}{\partial z}=-\frac{\partial\mathcal{J}}{\partial z}w+\mathcal{M}p_0\frac{\partial g}{\partial z}
+\mathcal{J}\frac{\partial w}{\partial z}=-\frac{\partial\mathcal{J}}{\partial z}w+\mathcal{M}q_0\frac{\partial g}{\partial z}
 $$
 
 Similarly differentiating Eq. (2), we find
@@ -186,7 +186,7 @@ $$
 \begin{equation}
 \begin{bmatrix}
 -\mathcal{J}^T & \mathcal{M}q_0 \\
-(\mathcal{M}p_0)^T & 0
+(\mathcal{M}q_0)^T & 0
 \end{bmatrix}
 \begin{bmatrix}
 \frac{\partial v}{\partial z} \\
@@ -224,14 +224,14 @@ However, it is not desirable or necessary to ever construct $`\frac{\partial w}{
 For the first term in Eq. (7), we have:
 
 $$
-\left(\frac{\partial v}{\partial z}\right)^T\mathcal{H}\left(w,w\right)=\left(-v^T\frac{\partial\mathcal{J}}{\partial z}+\frac{\partial g}{\partial z}\left(\mathcal{M}q_0\right)^T\right)\mathcal{J}^{-1}\mathcal{H}\left(w,w\right)=-v^T\frac{\partial\mathcal{J}}{\partial z}\hat{w}+\frac{\partial g}{\partial z}\left(\mathcal{M}q_0\right)^T\hat{w}
+\left(\frac{\partial v}{\partial z}\right)^T\mathcal{H}\left(w,w\right)=\left(-v^T\frac{\partial\mathcal{J}}{\partial z}+\frac{\partial g}{\partial z}\left(\mathcal{M}q_0\right)^T\right)\mathcal{J}^{-1}\mathcal{H}\left(w,w\right)=-v^T\frac{\partial\mathcal{J}}{\partial z}\hat{w}
 $$
 
 where $`\hat{w}`$ solves the non-singular system:
 
 $$
 \begin{bmatrix}
-\mathcal{J} & \mathcal{M}p_0 \\
+\mathcal{J} & \mathcal{M}q_0 \\
 (\mathcal{M}q_0)^T & 0
 \end{bmatrix}
 \begin{bmatrix}
@@ -246,10 +246,10 @@ $$
 giving equivalently,
 
 $$
-\mathcal{J}\hat{w}=\mathcal{H}\left(w,w\right)-\mathcal{M}p_0h\qquad{}\text{and}\qquad{}(\mathcal{M}q_0)^T\hat{w}=0
+\mathcal{J}\hat{w}=\mathcal{H}\left(w,w\right)-\mathcal{M}q_0h\qquad{}\text{and}\qquad{}(\mathcal{M}q_0)^T\hat{w}=0
 $$
 
-so, using the identities derived above that $`w=\mathcal{J}^{-1}\mathcal{M}p_0g`$ and $`v=\mathcal{J}^{-T}\mathcal{M}q_0g`$,
+so, using the identities derived above that $`w=\mathcal{J}^{-1}\mathcal{M}q_0g`$ and $`v=\mathcal{J}^{-T}\mathcal{M}q_0g`$,
 
 $$
 \hat{w}=\mathcal{J}^{-1}\mathcal{H}\left(w,w\right)-w\frac{h}{g}\qquad{}\text{and}\qquad{}h=v^T\mathcal{H}\left(w,w\right)
@@ -258,7 +258,7 @@ $$
 Then, similarly, for the last term in Eq. (7), we have:
 
 $$
-2v^T\mathcal{H}\left(w,\frac{\partial w}{\partial z}\right)=2v^T\mathcal{H}\left(w, \cdot\right)\mathcal{J}^{-1}\left(-\frac{\partial\mathcal{J}}{\partial z}w+\mathcal{M}p_0\frac{\partial g}{\partial z}\right)=-2\hat{v}^T\frac{\partial\mathcal{J}}{\partial z}w+2\hat{v}^T\mathcal{M}p_0\frac{\partial g}{\partial z}
+2v^T\mathcal{H}\left(w,\frac{\partial w}{\partial z}\right)=2v^T\mathcal{H}\left(w, \cdot\right)\mathcal{J}^{-1}\left(-\frac{\partial\mathcal{J}}{\partial z}w+\mathcal{M}q_0\frac{\partial g}{\partial z}\right)=-2\hat{v}^T\frac{\partial\mathcal{J}}{\partial z}w
 $$
 
 where $`\hat{v}`$ solves the non-singular system:
@@ -266,7 +266,7 @@ where $`\hat{v}`$ solves the non-singular system:
 $$
 \begin{bmatrix}
 \mathcal{J}^T & \mathcal{M}q_0 \\
-(\mathcal{M}p_0)^T & 0
+(\mathcal{M}q_0)^T & 0
 \end{bmatrix}
 \begin{bmatrix}
 \hat{v} \\
@@ -280,10 +280,10 @@ $$
 giving equivalently,
 
 $$
-\mathcal{J}^T\hat{v}=\mathcal{H}\left(w,\cdot\right)^Tv-\mathcal{M}q_0h\qquad{}\text{and}\qquad{}(\mathcal{M}p_0)^T\hat{v}=0
+\mathcal{J}^T\hat{v}=\mathcal{H}\left(w,\cdot\right)^Tv-\mathcal{M}q_0h\qquad{}\text{and}\qquad{}(\mathcal{M}q_0)^T\hat{v}=0
 $$
 
-so, using the identities derived above that $`w=\mathcal{J}^{-1}\mathcal{M}p_0g`$ and $`v=\mathcal{J}^{-T}\mathcal{M}q_0g`$,
+so, using the identities derived above that $`w=\mathcal{J}^{-1}\mathcal{M}q_0g`$ and $`v=\mathcal{J}^{-T}\mathcal{M}q_0g`$,
 
 $$
 \hat{v}=\mathcal{J}^{-T}\left(\mathcal{H}\left(w,\cdot\right)^Tv\right)-v\frac{h}{g}\qquad{}\text{and}\qquad{}h=\mathcal{H}\left(w,w\right)^Tv
@@ -293,9 +293,9 @@ So we can write Eq. (4) explicitly as
 
 $$
 \begin{bmatrix}
-\mathcal{J} & \frac{\partial\mathcal{J}}{\partial \lambda_1} & \frac{\partial\mathcal{J}}{\partial \lambda_2} \\
-v^T\frac{\partial \mathcal{J}}{\partial q}w & v^T\frac{\partial \mathcal{J}}{\partial \lambda_1}w & v^T\frac{\partial \mathcal{J}}{\partial \lambda_2}w \\
-\frac{\partial h}{\partial q} & \frac{\partial h}{\partial \lambda_1} & \frac{\partial h}{\partial \lambda_2}
+\mathcal{J} & \frac{\partial\mathcal{R}}{\partial \lambda_1} & \frac{\partial\mathcal{R}}{\partial \lambda_2} \\
+\left(v^T\frac{\partial \mathcal{J}}{\partial q}w\right)^T & v^T\frac{\partial \mathcal{J}}{\partial \lambda_1}w & v^T\frac{\partial \mathcal{J}}{\partial \lambda_2}w \\
+\left(\frac{\partial h}{\partial q}\right)^T & \frac{\partial h}{\partial \lambda_1} & \frac{\partial h}{\partial \lambda_2}
 \end{bmatrix}
 \begin{bmatrix}
 \delta{}q \\
@@ -311,7 +311,7 @@ $$
 where
 
 $$
-\frac{\partial h}{\partial z} = -v^T\frac{\partial\mathcal{J}}{\partial z}\hat{w} + v^T\frac{\partial \mathcal{H}}{\partial z}\left(w,w\right) - 2\hat{v}^T\frac{\partial\mathcal{J}}{\partial z}w + \left(\left(\mathcal{M}q_0\right)^T\hat{w}+2\hat{v}^T\mathcal{M}p_0\right)\frac{\partial g}{\partial z}
+\frac{\partial h}{\partial z} = -v^T\frac{\partial\mathcal{J}}{\partial z}\hat{w} + v^T\frac{\partial \mathcal{H}}{\partial z}\left(w,w\right) - 2\hat{v}^T\frac{\partial\mathcal{J}}{\partial z}w
 $$
 
 ## EXAMPLE USAGE:
@@ -400,6 +400,13 @@ else if(fileext == "hopf") {
   complex beta;
   complex[int] qm, qma;
   ub[] = loadhopf(fileroot, meshin, qm, qma, sym, omega, alpha, beta);
+}
+else if(fileext == "baut") {
+  real omega;
+  complex[string] alpha;
+  complex beta;
+  complex[int] qm, qma;
+  ub[] = loadbaut(fileroot, meshin, qm, qma, sym, omega, alpha, beta);
 }
 else if(fileext == "bota") {
   real[string] alpha1, alpha2;
@@ -510,7 +517,7 @@ real iomega = 0.0, iomega2 = 0.0, iomega3 = 0.0;
 include "eqns.idp"
 Mat JlPM(J.n, mpirank == 0 ? 2 : 0), gqPM(J.n, mpirank == 0 ? 2 : 0), glPM(mpirank == 0 ? 2 : 0, mpirank == 0 ? 2 : 0); // Initialize Mat objects for bordered matrix
 Mat H(J), Ja = [[J, JlPM], [gqPM', glPM]]; // make dummy Jacobian
-real[int] R(ub[].n), qm(J.n), qma(J.n), qpm(J.n), qpma(J.n), pP(J.n), qP(J.n);
+real[int] R(ub[].n), qm(J.n), qma(J.n), qpm(J.n), qpma(J.n), qP(J.n);
 real h, ginv;
 // FUNCTIONS
   func real[int] funcRa(real[int]& qa) {
@@ -523,7 +530,7 @@ real h, ginv;
       real[int] Ra;
       ChangeNumbering(J, R, Ra); // FreeFEM to PETSc
       J = vJ(XMh, XMh, tgv = -2);
-      KSPSolve(J, pP, qm);
+      KSPSolve(J, qP, qm);
       KSPSolveTranspose(J, qP, qma);
       real ginvl = (qP'*qm);
       mpiAllReduce(ginvl, ginv, mpiCommWorld, mpiSUM);
@@ -622,26 +629,20 @@ qa.resize(Ja.n);
 if(mpirank == 0) qa(J.n:Ja.n-1) = paramvals;
 if (fileext != "cusp" && fileext != "fold" && fileext != "foho" && fileext != "bota"){
   updateparam(param, paramvals(0) + eps);
-  um2[] = vR(0, XMh);
+  um2[] = vR(0, XMh, tgv = TGV);
   updateparam(param, paramvals(0));
-  R = vR(0, XMh);
+  R = vR(0, XMh, tgv = TGV);
   um2[] -= R;
   um2[] /= eps;
-  J = vJ(XMh, XMh);
+  J = vJ(XMh, XMh, tgv = TGV);
   um[] = J^-1*um2[];
-  uma[] = J'^-1*um2[];
 }
 ChangeNumbering(J, um[], qm);
 H = vM(XMh, XMh, tgv = 0);
 MatMult(H, qm, qP);
 real Mnorm, local = (qm'*qP);
 mpiAllReduce(local, Mnorm, mpiCommWorld, mpiSUM);
-qP /= sqrt(Mnorm);
-ChangeNumbering(J, uma[], qma);
-MatMultTranspose(H, qma, pP);
-local = (qma'*qP);
-mpiAllReduce(local, Mnorm, mpiCommWorld, mpiSUM);
-pP /= Mnorm;
+qP /= sqrt(abs(Mnorm));
 // solve nonlinear problem with SNES
 int ret;
 SNESSolve(Ja, funcJa, funcRa, qa, reason = ret,
@@ -659,18 +660,17 @@ if (ret > 0) { // Save solution if solver converged and output file is given
   local = sqrt(Mnorm);
   qP /= local;
   qm /= local;
-  MatMultTranspose(J, qma, pP);
   local = (qma'*qP);
   mpiAllReduce(local, Mnorm, mpiCommWorld, mpiSUM);
   qma /= Mnorm;
   if (normalform){
+    real[int] pP(J.n);
     real[int,int] qDa(paramnames.n, J.n);
     Mat qPM(J.n, mpirank == 0 ? 1 : 0), pPM(J.n, mpirank == 0 ? 1 : 0); // Initialize Mat objects for bordered matrix
     Ja = [[J, qPM], [pPM', 0]]; // make dummy Jacobian
     set(Ja, sparams = "-ksp_type preonly -pc_type fieldsplit -pc_fieldsplit_type schur -pc_fieldsplit_schur_precondition full"
                     + " -prefix_push fieldsplit_1_ -ksp_type preonly -pc_type redundant -redundant_pc_type lu -prefix_pop"
                     + " -prefix_push fieldsplit_0_ " + KSPparams + " -prefix_pop", setup = 1);
-    J = vM(XMh, XMh, tgv = 0);
     MatMultTranspose(J, qma, pP);
     matrix tempPms = [[pP]]; // dense array to sparse matrix
     ChangeOperator(pPM, tempPms, parent = Ja); // send to Mat
